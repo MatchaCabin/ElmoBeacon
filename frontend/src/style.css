@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'MapleMoonNL-CN';
+    src: url("/fonts/MapleMonoNL-CN-Regular.ttf");
+    font-weight: normal;
+}
+
+html {
+    font-family: 'MapleMoonNL-CN', Inter, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+}

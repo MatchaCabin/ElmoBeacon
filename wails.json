@@ -1,0 +1,19 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "ElmoBeacon",
+  "outputfilename": "ElmoBeacon",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Matcha",
+    "email": "admin@mcc.wiki"
+  },
+  "info": {
+    "companyName": "MccWiki",
+    "productName": "ElmoBeacon",
+    "productVersion": "",
+    "comments": "A tool for storing and analyzing GFL2 gacha records"
+  }
+}

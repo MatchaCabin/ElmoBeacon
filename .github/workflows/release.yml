@@ -1,0 +1,65 @@
+name: release
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    name: Release ${{ github.ref_name }}
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Write Version
+        run: |
+          (Get-Content "handler/version.go") -replace 'const Version = ""', 'const Version = "${{ github.ref_name }}"' | Set-Content "handler/version.go"
+          (Get-Content "wails.json") -replace '"productVersion": ""', '"productVersion": "${{ github.ref_name }}"' | Set-Content "wails.json"
+
+      - name: Setup GoLang
+        uses: actions/setup-go@v5
+        with:
+          check-latest: true
+          go-version: 1.22
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      - name: Build App
+        working-directory: .
+        run: wails build -webview2 embed -skipbindings -o ElmoBeacon.exe
+
+      - name: Create folder and copy files
+        run: |
+          mkdir ElmoBeacon
+          xcopy .\build\bin\ElmoBeacon.exe .\ElmoBeacon\ /y
+
+      - name: Zip the folder
+        run: powershell Compress-Archive -Path ElmoBeacon -DestinationPath ElmoBeacon.zip
+
+      - name: Create Release and Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ElmoBeacon.zip
+
+      - name: Upload to R2
+        uses: ryand56/r2-upload-action@latest
+        with:
+          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          r2-bucket: ${{ secrets.R2_BUCKET }}
+          source-dir: |
+            build/bin/ElmoBeacon.exe
+            ElmoBeacon.zip
+          destination-dir: ./
