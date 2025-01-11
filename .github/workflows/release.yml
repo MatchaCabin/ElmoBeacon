@@ -46,9 +46,14 @@ jobs:
       - name: Zip the folder
         run: powershell Compress-Archive -Path ElmoBeacon -DestinationPath ElmoBeacon.zip
 
+      - name: Build Changelog
+        id: bc
+        uses: mikepenz/release-changelog-builder-action@{latest-release}
+
       - name: Create Release and Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
+          body: ${{steps.bc.outputs.changelog}}
           files: |
             ElmoBeacon.zip
 
