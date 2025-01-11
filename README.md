@@ -4,10 +4,10 @@
     <img alt="GitHub" src="https://img.shields.io/github/license/MatchaCabin/ElmoBeacon"/>
   </a>
   <a href="https://github.com/MatchaCabin/ElmoBeacon/issues">
-    <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="CodeFactor" />
+    <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg"/>
   </a>
   <a href="https://github.com/MatchaCabin/ElmoBeacon/actions/workflows/release.yml" rel="nofollow">
-    <img src="https://img.shields.io/github/actions/workflow/status/MatchaCabin/ElmoBeacon/release.yml?branch=master&logo=Github" alt="Build" />
+    <img src="https://img.shields.io/github/actions/workflow/status/MatchaCabin/ElmoBeacon/release.yml"/>
   </a>
   <a href="https://github.com/MatchaCabin/ElmoBeacon/releases" rel="nofollow">
     <img src="https://img.shields.io/github/v/release/MatchaCabin/ElmoBeacon"/>
