@@ -49,6 +49,9 @@ jobs:
       - name: Build Changelog
         id: bc
         uses: mikepenz/release-changelog-builder-action@v5
+        with:
+          fromTag: ""
+          toTag: ${{ github.ref_name }}
 
       - name: Create Release and Upload Release Asset
         uses: softprops/action-gh-release@v2
