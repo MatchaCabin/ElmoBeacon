@@ -13,16 +13,8 @@ func (a *App) GetVersion() string {
 	return Version
 }
 
-func (a *App) CheckUpdate() (bool, error) {
-	remoteVersion, err := request.CheckUpdate()
-	if err != nil {
-		return false, err
-	}
-
-	if remoteVersion != Version {
-		return true, nil
-	}
-	return false, nil
+func (a *App) GetLatestVersion() (string, error) {
+	return request.GetLatestVersion()
 }
 
 func (a *App) UpdateSelf() error {

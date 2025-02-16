@@ -3,11 +3,11 @@
 import {handler} from '../models';
 import {model} from '../models';
 
-export function CheckUpdate():Promise<boolean>;
+export function GetLatestVersion():Promise<string>;
 
-export function GetPoolInfoList(arg1:number):Promise<Array<handler.PoolInfo>>;
+export function GetPoolInfo(arg1:number,arg2:number):Promise<handler.PoolInfo>;
 
-export function GetSettings():Promise<Array<model.Setting>>;
+export function GetSetting(arg1:string):Promise<string>;
 
 export function GetUserList():Promise<Array<model.User>>;
 

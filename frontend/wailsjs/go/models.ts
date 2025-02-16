@@ -19,7 +19,6 @@ export namespace handler {
 	    }
 	}
 	export class PoolInfo {
-	    poolType: number;
 	    storedCount: number;
 	    recordList: DisplayRecord[];
 	    totalCount: number;
@@ -40,7 +39,6 @@ export namespace handler {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.poolType = source["poolType"];
 	        this.storedCount = source["storedCount"];
 	        this.recordList = this.convertValues(source["recordList"], DisplayRecord);
 	        this.totalCount = source["totalCount"];
@@ -79,20 +77,6 @@ export namespace handler {
 
 export namespace model {
 	
-	export class Setting {
-	    key: string;
-	    value: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new Setting(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.key = source["key"];
-	        this.value = source["value"];
-	    }
-	}
 	export class User {
 	    id: number;
 	    uid: number;

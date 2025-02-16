@@ -7,16 +7,6 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (a *App) GetSettings() ([]model.Setting, error) {
-	var settingList []model.Setting
-	err := db.Engine.Find(&settingList)
-	if err != nil {
-		log.Error().Err(err).Msg("")
-		return nil, errors.New("error occurred when query setting list from db")
-	}
-	return settingList, nil
-}
-
 func (a *App) SetSetting(key, value string) error {
 	has, err := db.Engine.Get(&model.Setting{Key: key})
 	if err != nil {
@@ -37,4 +27,14 @@ func (a *App) SetSetting(key, value string) error {
 		}
 	}
 	return nil
+}
+
+func (a *App) GetSetting(key string) (string, error) {
+	setting := model.Setting{Key: key}
+	_, err := db.Engine.Get(&setting)
+	if err != nil {
+		log.Error().Err(err).Msg("")
+		return "", errors.Errorf("error occurred when get setting from db by key %s", key)
+	}
+	return setting.Value, nil
 }

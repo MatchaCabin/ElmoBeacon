@@ -2,58 +2,52 @@ export default {
     window: {
         title: '艾莫信标'
     },
-    btn: {
-        update: {
+    server:{
+        cn:'国服',
+        us:'美服',
+        intl:'全球服',
+        jp:'日服',
+        kr:'韩服',
+        tw:'亚服'
+    },
+    gacha:{
+        type:{
+            1:'常规采购',
+            3:'定向采购',
+            4:'军备提升',
+            5:'初始采购',
+            6:'自选采购·人形',
+            7:'自选采购·军备',
+            8:'神秘箱'
+        },
+        statistic:{
+            totalCount: '记录总数',
+            pityCount: '保底进度',
+            rank5Data: '五星数据',
+            rank4Data: '四星数据',
+            rank3Data: '三星数据',
+            rank5Avg: '五星平均抽数',
+            upRank5Avg: 'Up五星平均抽数',
+            nonUpRate: '五星歪率',
+        },
+        records:{
+            title:'抽卡记录',
+            tip:'记录名称读取自游戏本体，因此不管你选择什么语言，国服只会显示简体中文，国际服无法显示简体中文(如果你选择了简体中文，将使用繁体中文代替)'
+        }
+    },
+    record:{
+        update:{
+            button:'更新记录',
             incremental: {
-                title: '增量更新',
-                desc: ''
+                button: '增量更新',
+                tip: '从服务器逐步拉取抽卡记录，匹配到本地数据库最新记录后停止',
+                loading:'增量更新中...',
             },
             full:{
-                title: '全量更新',
-                desc: ''
+                button: '全量更新',
+                tip: '从服务器拉取全部抽卡记录，与本地数据库同步，通常用于纠错',
+                loading:'全量更新中...',
             }
-        }
-    },
-    pool:{
-        type1:{
-            title:'常规采购'
-        },
-        type3:{
-            title:'定向采购'
-        },
-        type4:{
-            title:'军备提升'
-        },
-        type5:{
-            title:'初始采购'
-        },
-        type6:{
-            title:'自选采购·人形'
-        },
-        type7:{
-            title:'自选采购·军备'
-        },
-        type8:{
-            title:'神秘箱'
-        },
-        unknown:{
-            title:'未知卡池类型'
-        },
-    },
-    setting:{
-        lang:{
-            title:'语言'
-        }
-    },
-    home:{
-        intro:{
-            title:'简介'
-        },
-        requirement:{
-            title:'依赖'
-        },
-        instruction:{
-            title:'使用说明'
         },
     }
 }
