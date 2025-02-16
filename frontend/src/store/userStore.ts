@@ -2,15 +2,15 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {model} from "../../wailsjs/go/models.ts";
 import {GetUserList} from "../../wailsjs/go/handler/App";
-import User = model.User;
 import {ElNotification} from "element-plus";
+import User = model.User;
 
 export const useUserStore = defineStore('user', () => {
     const user = ref<User>()
     const userList = ref<User[]>([])
 
-    const updateUserList = () => {
-        GetUserList().then((res) => {
+    const updateUserList = async () => {
+        await GetUserList().then((res) => {
             if (res) {
                 userList.value = res;
                 if (!user.value) {

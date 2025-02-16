@@ -27,7 +27,7 @@ export default {
             rank4Data: '4-star Data',
             rank3Data: '3-star Data',
             rank5Avg: 'Avg Pulls per 5-star',
-            upRank5Avg: 'Avg Pulls per Featured 5-star',
+            upRank5Avg: 'Avg Pulls per Up 5-star',
             nonUpRate: 'NonUp 5-star Rate',
         },
         records:{

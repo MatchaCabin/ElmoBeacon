@@ -13,9 +13,9 @@ export const usePoolStore = defineStore('pool', () => {
 
     const userStore = useUserStore()
 
-    const updatePoolInfo = (newUser: User | undefined, newPoolType: number) => {
+    const updatePoolInfo = async (newUser: User | undefined, newPoolType: number) => {
         if (newUser) {
-            GetPoolInfo(newUser.id, newPoolType).then(res => {
+            await GetPoolInfo(newUser.id, newPoolType).then(res => {
                 poolInfo.value = res
             }).catch(err => {
                 ElNotification({
@@ -30,9 +30,9 @@ export const usePoolStore = defineStore('pool', () => {
 
     updatePoolInfo(userStore.user, poolType.value)
 
-    watchEffect(() => {
-        updatePoolInfo(userStore.user, poolType.value)
+    watchEffect(async () => {
+        await updatePoolInfo(userStore.user, poolType.value)
     })
 
-    return {poolType, poolInfo}
+    return {poolType, poolInfo, updatePoolInfo}
 })

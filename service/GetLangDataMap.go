@@ -8,7 +8,7 @@ import (
 func GetLangDataMap(gameDataDir, gameServer, lang string) (map[int64]string, error) {
 	langMap := make(map[int64]string)
 	switch {
-	case gameServer == string(GameServerCN) || lang == "zh-CN":
+	case gameServer == string(GameServerCN):
 		var langData pb.LangPackageTableCnData
 		err := util.GetTableData(gameDataDir, "", &langData)
 		if err != nil {
@@ -17,17 +17,8 @@ func GetLangDataMap(gameDataDir, gameServer, lang string) (map[int64]string, err
 		for _, unit := range langData.Units {
 			langMap[unit.Id] = unit.Content
 		}
-	case lang == "zh-TW":
+	case lang == "zh-TW", lang == "zh-CN":
 		var langData pb.LangPackageTableZhtcData
-		err := util.GetTableData(gameDataDir, "", &langData)
-		if err != nil {
-			return nil, err
-		}
-		for _, unit := range langData.Units {
-			langMap[unit.Id] = unit.Content
-		}
-	case lang == "en":
-		var langData pb.LangPackageTableEnusData
 		err := util.GetTableData(gameDataDir, "", &langData)
 		if err != nil {
 			return nil, err
@@ -44,7 +35,7 @@ func GetLangDataMap(gameDataDir, gameServer, lang string) (map[int64]string, err
 		for _, unit := range langData.Units {
 			langMap[unit.Id] = unit.Content
 		}
-	case lang == "ko":
+	case lang == "kr":
 		var langData pb.LangPackageTableKokrData
 		err := util.GetTableData(gameDataDir, "", &langData)
 		if err != nil {

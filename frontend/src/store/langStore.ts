@@ -45,17 +45,19 @@ export const useLangStore = defineStore('lang', () => {
     const {locale} = useI18n()
     const lang = ref('')
 
-    const updateLang = (newLang: string) => {
-        lang.value = newLang
-        locale.value = newLang
-        SetSetting('lang', newLang).catch(err => {
-            ElNotification({
-                title: 'Error',
-                message: err,
-                type: 'error',
-                position: 'top-left',
+    const updateLang = async (newLang: string) => {
+        if (lang.value!==newLang){
+            lang.value = newLang
+            locale.value = newLang
+            await SetSetting('lang', newLang).catch(err => {
+                ElNotification({
+                    title: 'Error',
+                    message: err,
+                    type: 'error',
+                    position: 'top-left',
+                })
             })
-        })
+        }
     }
 
     const initLang = async () => {
@@ -67,7 +69,7 @@ export const useLangStore = defineStore('lang', () => {
         } else {
             const defaultLang = getDefaultLang()
             console.log('DefaultLang:', defaultLang)
-            updateLang(defaultLang)
+            await updateLang(defaultLang)
         }
     }
     initLang()
