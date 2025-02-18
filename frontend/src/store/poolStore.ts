@@ -1,11 +1,10 @@
 import {defineStore} from "pinia";
-import {ref, watchEffect} from "vue";
-import {handler, model} from "../../wailsjs/go/models.ts";
+import {ref} from "vue";
+import {handler} from "../../wailsjs/go/models.ts";
 import {GetPoolInfo} from "../../wailsjs/go/handler/App";
 import {ElNotification} from "element-plus";
 import {useUserStore} from "./userStore.ts";
 import PoolInfo = handler.PoolInfo;
-import User = model.User;
 
 export const usePoolStore = defineStore('pool', () => {
     const poolType = ref(1)
@@ -13,9 +12,9 @@ export const usePoolStore = defineStore('pool', () => {
 
     const userStore = useUserStore()
 
-    const updatePoolInfo = async (newUser: User | undefined, newPoolType: number) => {
-        if (newUser) {
-            await GetPoolInfo(newUser.id, newPoolType).then(res => {
+    const updatePoolInfo = async () => {
+        if (userStore.userId) {
+            await GetPoolInfo(userStore.userId, poolType.value).then(res => {
                 poolInfo.value = res
             }).catch(err => {
                 ElNotification({
@@ -28,11 +27,9 @@ export const usePoolStore = defineStore('pool', () => {
         }
     }
 
-    updatePoolInfo(userStore.user, poolType.value)
+    const init = async () => {
+        await updatePoolInfo()
+    }
 
-    watchEffect(async () => {
-        await updatePoolInfo(userStore.user, poolType.value)
-    })
-
-    return {poolType, poolInfo, updatePoolInfo}
+    return {poolType, poolInfo, updatePoolInfo, init}
 })

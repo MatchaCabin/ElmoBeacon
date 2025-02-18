@@ -3,9 +3,11 @@ import {ElLoading, ElNotification} from "element-plus";
 import {UpdateRecord} from "../../wailsjs/go/handler/App";
 import {useI18n} from "vue-i18n";
 import {useUserStore} from "../store/userStore.ts";
+import {usePoolStore} from "../store/poolStore.ts";
 
 const {t} = useI18n()
 const userStore =useUserStore()
+const poolStore =usePoolStore()
 
 const incrementalUpdate = () => {
   const loading = ElLoading.service({
@@ -14,8 +16,13 @@ const incrementalUpdate = () => {
     background: 'rgba(0, 0, 0, 0.7)',
   })
 
-  UpdateRecord().then(() => {
-    userStore.updateUserList()
+  UpdateRecord().then(async () => {
+    const lastUserId =userStore.userId
+    await userStore.updateUserList()
+    if (lastUserId===userStore.userId){
+      await poolStore.updatePoolInfo()
+    }
+
     ElNotification({
       title: 'Success',
       message: 'Records Updated',

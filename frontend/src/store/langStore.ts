@@ -8,8 +8,7 @@ const getSettingLang = async () => {
     let settingLang = ''
 
     await GetSetting("lang").then(res => {
-        console.log(res)
-        if (['zh-CN', 'zh-TW', 'en', 'ja', 'kr'].includes(res)) {
+        if (res && ['zh-CN', 'zh-TW', 'en', 'ja', 'kr'].includes(res)) {
             settingLang = res
         }
     }).catch(err => {
@@ -46,10 +45,11 @@ export const useLangStore = defineStore('lang', () => {
     const lang = ref('')
 
     const updateLang = async (newLang: string) => {
-        if (lang.value!==newLang){
-            lang.value = newLang
-            locale.value = newLang
-            await SetSetting('lang', newLang).catch(err => {
+        if (lang.value !== newLang) {
+            await SetSetting('lang', newLang).then(() => {
+                lang.value = newLang
+                locale.value = newLang
+            }).catch(err => {
                 ElNotification({
                     title: 'Error',
                     message: err,
@@ -60,19 +60,16 @@ export const useLangStore = defineStore('lang', () => {
         }
     }
 
-    const initLang = async () => {
+    const init = async () => {
         const settingLang = await getSettingLang()
         if (settingLang) {
-            console.log('SettingLang:', settingLang)
             lang.value = settingLang
             locale.value = settingLang
         } else {
             const defaultLang = getDefaultLang()
-            console.log('DefaultLang:', defaultLang)
             await updateLang(defaultLang)
         }
     }
-    initLang()
 
-    return {lang, updateLang}
+    return {lang, updateLang, init}
 })
