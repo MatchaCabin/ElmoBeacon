@@ -14,6 +14,9 @@
   </a>
 </p>
 
+## Preview
+![image](preview.png)
+
 ## Introduction
 <p><a href="https://github.com/MatchaCabin/ElmoBeacon" rel="nofollow">ElmoBeacon</a> is a tool for storing and analyzing GFL2 gacha records.</p>
 <p>The project is compatible with DarkWinter server(China,North America) and Haoplay server(Global,Asia,Japan,Korea).</p>
