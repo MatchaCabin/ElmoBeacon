@@ -72,6 +72,24 @@ export namespace handler {
 		    return a;
 		}
 	}
+	export class SyncResult {
+	    Server: string;
+	    Uid: number;
+	    PoolType: number;
+	    Count: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new SyncResult(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Server = source["Server"];
+	        this.Uid = source["Uid"];
+	        this.PoolType = source["PoolType"];
+	        this.Count = source["Count"];
+	    }
+	}
 
 }
 

@@ -12,31 +12,19 @@ import (
 	"strconv"
 )
 
-// UpdateRecord incremental update to the records
-func (a *App) UpdateRecord() error {
+type SyncResult struct {
+	Server   string
+	Uid      uint64
+	PoolType int64
+	Count    int
+}
+
+func (a *App) SyncRecordsFromServer() (syncResultList []SyncResult, err error) {
 	// Step.1 extract user info from the logs
-	var gameUserInfoList []*service.GameUserInfo
-
-	userInfoCN, err := service.ExtractUserInfoCN()
-	if err != nil {
-		log.Error().Err(err).Msg("error occurred when extract user info(CN)")
-		return err
-	}
-	if userInfoCN != nil {
-		gameUserInfoList = append(gameUserInfoList, userInfoCN)
-	}
-
-	userInfoOversea, err := service.ExtractUserInfoOversea()
-	if err != nil {
-		log.Error().Err(err).Msg("error occurred when extract user info(Oversea)")
-		return err
-	}
-	if userInfoOversea != nil {
-		gameUserInfoList = append(gameUserInfoList, userInfoOversea)
-	}
+	gameUserInfoList := service.GetUserInfoList()
 
 	if len(gameUserInfoList) == 0 {
-		return errors.New("Unable to extract user information, please check whether a valid login has been performed for the game recently.")
+		return nil, errors.New("Failed to find any game user info, please check whether a valid login has been performed in this machine recently.")
 	}
 
 	for _, gameUserInfo := range gameUserInfoList {
@@ -45,7 +33,7 @@ func (a *App) UpdateRecord() error {
 		hasUser, err := db.Engine.Get(&cond)
 		if err != nil {
 			log.Error().Err(err).Msg("")
-			return errors.New("error occurred when get user from db")
+			return nil, errors.New("Failed to query user")
 		}
 		var userId int64
 		user := model.User{
@@ -57,7 +45,7 @@ func (a *App) UpdateRecord() error {
 			_, err = db.Engine.Insert(&user)
 			if err != nil {
 				log.Error().Err(err).Msg("")
-				return errors.New("error occurred when insert user to db")
+				return nil, errors.New("Failed to insert user")
 			}
 			userId = user.Id
 		} else {
@@ -65,7 +53,7 @@ func (a *App) UpdateRecord() error {
 			_, err = db.Engine.ID(userId).Update(user)
 			if err != nil {
 				log.Error().Err(err).Msg("")
-				return errors.New("error occurred when update user to db")
+				return nil, errors.New("Failed to update user")
 			}
 		}
 
@@ -73,7 +61,7 @@ func (a *App) UpdateRecord() error {
 		gachaPoolTypeList, err := service.GetGachaPoolTypeList(gameUserInfo.GameDataDir, string(gameUserInfo.GameServer))
 		if err != nil {
 			log.Error().Err(err).Msg("")
-			return errors.New("error occurred when get gacha pool type list")
+			return nil, errors.New("Failed to get gacha pool type list")
 		}
 
 		for _, poolType := range gachaPoolTypeList {
@@ -84,7 +72,7 @@ func (a *App) UpdateRecord() error {
 			_, err = db.Engine.Desc("id").Get(&latestLocalRecord)
 			if err != nil {
 				log.Error().Err(err).Msg("")
-				return errors.New("error occurred when get latest local record from db")
+				return nil, errors.New("Failed to query latest local record")
 			}
 
 			var incrementalRecordList []model.Record
@@ -94,7 +82,7 @@ func (a *App) UpdateRecord() error {
 				remoteRecordList, err := request.FetchGachaRecordList(gameUserInfo.GachaRecordUrl, gameUserInfo.GameAccessToken, next, poolType)
 				if err != nil {
 					log.Error().Err(err).Msg("")
-					return errors.New("error occurred when fetch gacha record list from server")
+					return nil, errors.New("Failed to fetch gacha record list")
 				}
 				for _, remoteRecord := range remoteRecordList.RecordList {
 					if remoteRecord.GachaTimestamp == latestLocalRecord.Timestamp && remoteRecord.ItemId == latestLocalRecord.ItemId {
@@ -118,32 +106,35 @@ func (a *App) UpdateRecord() error {
 			log.Info().Str("server", string(gameUserInfo.GameServer)).Uint64("uid", gameUserInfo.Uid).Int64("poolType", poolType).Int("count", len(incrementalRecordList)).Msg("")
 
 			// Step.4 merge the incremental gacha records into the database
-			slices.Reverse(incrementalRecordList)
-			var lastTimestamp, order int64
-			for i, record := range incrementalRecordList {
-				if record.Timestamp != lastTimestamp {
-					order = 0
-				} else {
-					order++
-				}
-				virtualId, _ := strconv.ParseUint(fmt.Sprintf("%d%03d", record.Timestamp, order), 10, 64)
-				incrementalRecordList[i].Id = virtualId
-				lastTimestamp = record.Timestamp
-			}
 			if len(incrementalRecordList) > 0 {
+				slices.Reverse(incrementalRecordList)
+				var lastTimestamp, order int64
+				for i, record := range incrementalRecordList {
+					if record.Timestamp != lastTimestamp {
+						order = 0
+					} else {
+						order++
+					}
+					virtualId, _ := strconv.ParseUint(fmt.Sprintf("%d%03d", record.Timestamp, order), 10, 64)
+					incrementalRecordList[i].Id = virtualId
+					lastTimestamp = record.Timestamp
+				}
+
 				_, err = db.Engine.Insert(&incrementalRecordList)
 				if err != nil {
 					log.Error().Err(err).Msg("")
-					return errors.New("error occurred when insert incremental record list to db")
+					return nil, errors.New("Failed to insert incremental record list")
 				}
+
+				syncResultList = append(syncResultList, SyncResult{
+					Server:   string(gameUserInfo.GameServer),
+					Uid:      gameUserInfo.Uid,
+					PoolType: poolType,
+					Count:    len(incrementalRecordList),
+				})
 			}
 		}
 	}
 
-	return nil
-}
-
-// UpdateRecordFully full update to the record
-func (a *App) UpdateRecordFully() {
-
+	return syncResultList, nil
 }

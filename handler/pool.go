@@ -150,7 +150,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 				} else if _, isRank3 := gachaPoolInfo.Rank3Item[item.Id]; isRank3 {
 					poolInfo.Rank3Count++
 				} else {
-					log.Warn().Msgf("unknown rank item:%d", item.Id)
+					log.Warn().Int64("poolId", record.PoolId).Int64("itemId", item.Id).Msg("unknown rank")
 				}
 			} else {
 				return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)

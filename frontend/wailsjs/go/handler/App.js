@@ -26,12 +26,8 @@ export function SetSetting(arg1, arg2) {
   return window['go']['handler']['App']['SetSetting'](arg1, arg2);
 }
 
-export function UpdateRecord() {
-  return window['go']['handler']['App']['UpdateRecord']();
-}
-
-export function UpdateRecordFully() {
-  return window['go']['handler']['App']['UpdateRecordFully']();
+export function SyncRecordsFromServer() {
+  return window['go']['handler']['App']['SyncRecordsFromServer']();
 }
 
 export function UpdateSelf() {

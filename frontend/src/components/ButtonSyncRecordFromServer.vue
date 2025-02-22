@@ -1,31 +1,34 @@
 <script setup lang="ts">
 import {ElLoading, ElNotification} from "element-plus";
-import {UpdateRecord} from "../../wailsjs/go/handler/App";
+import {SyncRecordsFromServer} from "../../wailsjs/go/handler/App";
 import {useI18n} from "vue-i18n";
 import {useUserStore} from "../store/userStore.ts";
 import {usePoolStore} from "../store/poolStore.ts";
 
 const {t} = useI18n()
-const userStore =useUserStore()
-const poolStore =usePoolStore()
+const userStore = useUserStore()
+const poolStore = usePoolStore()
 
-const incrementalUpdate = () => {
+const syncRecordFromServer = () => {
   const loading = ElLoading.service({
     lock: true,
-    text: t('record.update.incremental.loading'),
+    text: "Sync Records...",
     background: 'rgba(0, 0, 0, 0.7)',
   })
 
-  UpdateRecord().then(async () => {
-    const lastUserId =userStore.userId
+  SyncRecordsFromServer().then(async res => {
+    const lastUserId = userStore.userId
     await userStore.updateUserList()
-    if (lastUserId===userStore.userId){
+    if (lastUserId === userStore.userId) {
       await poolStore.updatePoolInfo()
     }
 
     ElNotification({
       title: 'Success',
-      message: 'Records Updated',
+      dangerouslyUseHTMLString: true,
+      message: res ? res.map(item => {
+        return `${t(`server.${item.Server}`)} ${item.Uid} ${t(`gacha.type.${item.PoolType}`)} ${item.Count}`
+      }).join("<br/>") : 'Nothing updated',
       type: 'success',
       position: 'top-left',
     })
@@ -44,6 +47,6 @@ const incrementalUpdate = () => {
 
 <template>
   <el-tooltip :content="$t('record.update.incremental.tip')" placement="top">
-    <el-button type="primary" @click="incrementalUpdate">{{ $t('record.update.button') }}</el-button>
+    <el-button type="primary" @click="syncRecordFromServer">{{ $t('record.update.button') }}</el-button>
   </el-tooltip>
 </template>

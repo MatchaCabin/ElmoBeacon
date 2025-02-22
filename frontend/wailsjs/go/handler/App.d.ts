@@ -15,8 +15,6 @@ export function GetVersion():Promise<string>;
 
 export function SetSetting(arg1:string,arg2:string):Promise<void>;
 
-export function UpdateRecord():Promise<void>;
-
-export function UpdateRecordFully():Promise<void>;
+export function SyncRecordsFromServer():Promise<Array<handler.SyncResult>>;
 
 export function UpdateSelf():Promise<void>;

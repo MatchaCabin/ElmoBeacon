@@ -1,6 +1,6 @@
 <p>
   <br/>
-  <a href="https://github.com/MatchaCabin/ElmoBeacon/blob/master/LICENSE">
+  <a href="https://github.com/MatchaCabin/ElmoBeacon/blob/main/LICENSE">
     <img alt="GitHub" src="https://img.shields.io/github/license/MatchaCabin/ElmoBeacon"/>
   </a>
   <a href="https://github.com/MatchaCabin/ElmoBeacon/issues">

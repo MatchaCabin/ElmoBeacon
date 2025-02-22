@@ -10,7 +10,7 @@ declare module 'vue' {
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/AppHeader.vue')['default']
     AppMain: typeof import('./src/components/AppMain.vue')['default']
-    ButtonUpdateRecord: typeof import('./src/components/ButtonUpdateRecord.vue')['default']
+    ButtonSyncRecordFromServer: typeof import('./src/components/ButtonSyncRecordFromServer.vue')['default']
     ButtonVersion: typeof import('./src/components/ButtonVersion.vue')['default']
     ButtonWindowClose: typeof import('./src/components/ButtonWindowClose.vue')['default']
     ButtonWindowMaxmise: typeof import('./src/components/ButtonWindowMaxmise.vue')['default']
