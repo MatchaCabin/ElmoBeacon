@@ -26,8 +26,12 @@ export function SetSetting(arg1, arg2) {
   return window['go']['handler']['App']['SetSetting'](arg1, arg2);
 }
 
-export function SyncRecordsFromServer() {
-  return window['go']['handler']['App']['SyncRecordsFromServer']();
+export function SyncRecordsCN() {
+  return window['go']['handler']['App']['SyncRecordsCN']();
+}
+
+export function SyncRecordsOS() {
+  return window['go']['handler']['App']['SyncRecordsOS']();
 }
 
 export function UpdateSelf() {

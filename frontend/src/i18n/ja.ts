@@ -34,4 +34,22 @@ export default {
             title:'Pull Records'
         }
     },
+    sync: {
+        button: {
+            title: 'Synchronize Records',
+            tip: 'Pull records from the server and stops when it matches the latest record in the local database'
+        },
+        loading: 'Syncing...',
+        result: {
+            success: {
+                title: '{server} {uid} Synchronization Success',
+                changed: '{count} new records added for {poolType}',
+                unchanged: 'No new records added'
+            },
+            error: {
+                cn: 'Synchronization Error(CN)',
+                os: 'Synchronization Error(OS)'
+            }
+        }
+    }
 }

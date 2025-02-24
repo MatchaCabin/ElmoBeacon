@@ -35,9 +35,22 @@ export default {
             tip:'Record names are retrieved from the game client. Therefore, regardless of your language selection, the Chinese server will only display Simplified Chinese, while the international server cannot show Simplified Chinese (if you select Simplified Chinese, it will use Traditional Chinese as a substitute).'
         }
     },
-    record: {
-        update: {
-            button: 'Update Records'
+    sync: {
+        button: {
+            title: 'Synchronize Records',
+            tip: 'Pull records from the server and stops when it matches the latest record in the local database'
+        },
+        loading: 'Syncing...',
+        result: {
+            success: {
+                title: '{server} {uid} Synchronization Success',
+                changed: '{count} new records added for {poolType}',
+                unchanged: 'No new records added'
+            },
+            error: {
+                cn: 'Synchronization Error(CN)',
+                os: 'Synchronization Error(OS)'
+            }
         }
     }
 }

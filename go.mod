@@ -11,7 +11,6 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.33.0
 	github.com/wailsapp/wails/v2 v2.9.2
-	golang.org/x/exp v0.0.0-20231108232855-2478ac86f678
 	google.golang.org/protobuf v1.36.1
 	modernc.org/sqlite v1.34.4
 	xorm.io/xorm v1.3.9
@@ -51,6 +50,7 @@ require (
 	github.com/wailsapp/mimetype v1.4.1 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	golang.org/x/crypto v0.23.0 // indirect
+	golang.org/x/exp v0.0.0-20231108232855-2478ac86f678 // indirect
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
