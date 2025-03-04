@@ -33,7 +33,7 @@ const poolStore = usePoolStore()
 
       <el-scrollbar>
         <div class="w-full flex gap-x-2 gap-y-2 flex-wrap">
-          <PoolRecord v-for="record in poolStore.poolInfo.recordList" :name="record.Name" :count="record.Count" :is-missing="record.IsMissing"/>
+          <PoolRecord v-for="record in poolStore.poolInfo.recordList" :name="record.Name" :count="record.Count" :timestamp="record.Timestamp" :is-missing="record.IsMissing"/>
         </div>
       </el-scrollbar>
     </template>

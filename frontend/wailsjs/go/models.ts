@@ -4,6 +4,7 @@ export namespace handler {
 	    Name: string;
 	    Icon: string;
 	    Count: number;
+	    Timestamp: number;
 	    IsMissing: boolean;
 	
 	    static createFrom(source: any = {}) {
@@ -15,6 +16,7 @@ export namespace handler {
 	        this.Name = source["Name"];
 	        this.Icon = source["Icon"];
 	        this.Count = source["Count"];
+	        this.Timestamp = source["Timestamp"];
 	        this.IsMissing = source["IsMissing"];
 	    }
 	}

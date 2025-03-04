@@ -30,6 +30,7 @@ type DisplayRecord struct {
 	Name      string
 	Icon      string
 	Count     int64
+	Timestamp int64
 	IsMissing bool
 }
 
@@ -138,6 +139,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 							Name:      text,
 							Icon:      icon,
 							Count:     count,
+							Timestamp: record.Timestamp,
 							IsMissing: isMissing,
 						})
 						isPreMissing = isMissing
