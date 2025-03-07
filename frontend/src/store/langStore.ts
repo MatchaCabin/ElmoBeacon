@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {GetSetting, SetSetting} from "../../wailsjs/go/handler/App";
-import {ElNotification} from "element-plus";
+import {NotifyError} from "../utils/notify.ts";
 
 const getSettingLang = async () => {
     let settingLang = ''
@@ -12,12 +12,7 @@ const getSettingLang = async () => {
             settingLang = res
         }
     }).catch(err => {
-        ElNotification({
-            title: 'Error',
-            message: err,
-            type: 'error',
-            position: 'top-left',
-        })
+        NotifyError('Error', err)
     })
 
     return settingLang
@@ -50,12 +45,7 @@ export const useLangStore = defineStore('lang', () => {
                 lang.value = newLang
                 locale.value = newLang
             }).catch(err => {
-                ElNotification({
-                    title: 'Error',
-                    message: err,
-                    type: 'error',
-                    position: 'top-left',
-                })
+                NotifyError('Error', err)
             })
         }
     }

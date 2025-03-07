@@ -52,5 +52,13 @@ export default {
                 os: '国际服同步出错'
             }
         }
+    },
+    version: {
+        update: {
+            notify: '有新的版本可用，是否更新？',
+            latest: '已是最新版本',
+            confirm: '是',
+            cancel: '否'
+        },
     }
 }

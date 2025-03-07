@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {model} from "../../wailsjs/go/models.ts";
 import {GetSetting, GetUserList, SetSetting} from "../../wailsjs/go/handler/App";
-import {ElNotification} from "element-plus";
+import {NotifyError} from "../utils/notify.ts";
 import User = model.User;
 
 const getSettingUserId = async () => {
@@ -13,12 +13,7 @@ const getSettingUserId = async () => {
             settingUserId = parseInt(res)
         }
     }).catch(err => {
-        ElNotification({
-            title: 'Error',
-            message: err,
-            type: 'error',
-            position: 'top-left',
-        })
+        NotifyError('Error', err)
     })
 
     return settingUserId
@@ -32,12 +27,7 @@ export const useUserStore = defineStore('user', () => {
         await SetSetting("lastUserId", newUserId.toString()).then(() => {
             userId.value = newUserId
         }).catch(err => {
-            ElNotification({
-                title: 'Error',
-                message: err,
-                type: 'error',
-                position: 'top-left',
-            })
+            NotifyError('Error', err)
         })
     }
 
@@ -50,12 +40,7 @@ export const useUserStore = defineStore('user', () => {
                 }
             }
         }).catch(err => {
-            ElNotification({
-                title: 'Error',
-                message: err,
-                type: 'error',
-                position: 'top-left',
-            })
+            NotifyError('Error', err)
         })
     }
 

@@ -52,5 +52,13 @@ export default {
                 os: 'Synchronization Error(OS)'
             }
         }
+    },
+    version: {
+        update: {
+            notify: 'There is a new version available, do you want to update?',
+            latest: 'Already the latest version.',
+            confirm: 'Yes',
+            cancel: 'No'
+        },
     }
 }

@@ -2,8 +2,8 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 import {handler} from "../../wailsjs/go/models.ts";
 import {GetPoolInfo} from "../../wailsjs/go/handler/App";
-import {ElNotification} from "element-plus";
 import {useUserStore} from "./userStore.ts";
+import {NotifyError} from "../utils/notify.ts";
 import PoolInfo = handler.PoolInfo;
 
 export const usePoolStore = defineStore('pool', () => {
@@ -17,12 +17,7 @@ export const usePoolStore = defineStore('pool', () => {
             await GetPoolInfo(userStore.userId, poolType.value).then(res => {
                 poolInfo.value = res
             }).catch(err => {
-                ElNotification({
-                    title: 'Error',
-                    message: err,
-                    type: 'error',
-                    position: 'top-left',
-                })
+                NotifyError('Error', err)
             })
         }
     }
