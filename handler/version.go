@@ -5,6 +5,8 @@ import (
 	"github.com/inconshreveable/go-update"
 	"github.com/pkg/errors"
 	"net/http"
+	"os"
+	"os/exec"
 )
 
 const Version = ""
@@ -31,6 +33,17 @@ func (a *App) UpdateSelf() error {
 	if err != nil {
 		return err
 	}
+
+	execPath, err := os.Executable()
+	if err != nil {
+		return err
+	}
+	cmd := exec.Command(execPath)
+	err = cmd.Start()
+	if err != nil {
+		return err
+	}
+	os.Exit(0)
 
 	return nil
 }
