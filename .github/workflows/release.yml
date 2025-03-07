@@ -68,5 +68,5 @@ jobs:
           source-dir: |
             build/bin/ElmoBeacon.exe
             ElmoBeacon.zip
-          destination-dir: ./
+          destination-dir: ElmoBeacon/${{ github.ref_name }}/
           keep-file-fresh: true

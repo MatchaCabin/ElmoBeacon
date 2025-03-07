@@ -20,4 +20,4 @@ export function SyncRecordsCN():Promise<service.SyncResult>;
 
 export function SyncRecordsOS():Promise<service.SyncResult>;
 
-export function UpdateSelf():Promise<void>;
+export function UpdateTo(arg1:string):Promise<void>;

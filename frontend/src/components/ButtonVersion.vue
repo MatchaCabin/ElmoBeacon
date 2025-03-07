@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {GetLatestVersion, GetVersion, UpdateSelf} from "../../wailsjs/go/handler/App";
+import {GetLatestVersion, GetVersion, UpdateTo} from "../../wailsjs/go/handler/App";
 import {ElLoading, ElMessageBox} from "element-plus";
 import {NotifyError, NotifySuccess} from "../utils/notify.ts";
 import {useI18n} from "vue-i18n";
@@ -13,7 +13,7 @@ const checkUpdate = () => {
     if (latestVersion != version.value) {
       ElMessageBox.confirm(t('version.update.notify'), latestVersion, {confirmButtonText: t('version.update.confirm'), cancelButtonText: t('version.update.cancel'), type: 'info',}).then(() => {
         const loading = ElLoading.service({lock: true, text: `Update to ${latestVersion}...`, background: 'rgba(0, 0, 0, 0.7)'})
-        UpdateSelf().catch(err => {
+        UpdateTo(latestVersion).catch(err => {
           NotifyError('Error', err)
         }).finally(() => {
           loading.close()

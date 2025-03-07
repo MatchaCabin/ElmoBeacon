@@ -2,6 +2,7 @@ package handler
 
 import (
 	"ElmoBeacon/request"
+	"fmt"
 	"github.com/inconshreveable/go-update"
 	"github.com/pkg/errors"
 	"net/http"
@@ -19,8 +20,8 @@ func (a *App) GetLatestVersion() (string, error) {
 	return request.GetLatestVersion()
 }
 
-func (a *App) UpdateSelf() error {
-	resp, err := http.Get("https://gfl2bucket.mcc.wiki/ElmoBeacon.exe")
+func (a *App) UpdateTo(version string) error {
+	resp, err := http.Get(fmt.Sprintf("https://gfl2bucket.mcc.wiki/ElmoBeacon/%s/ElmoBeacon.exe", version))
 	if err != nil {
 		return err
 	}

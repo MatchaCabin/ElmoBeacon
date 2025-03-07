@@ -34,6 +34,6 @@ export function SyncRecordsOS() {
   return window['go']['handler']['App']['SyncRecordsOS']();
 }
 
-export function UpdateSelf() {
-  return window['go']['handler']['App']['UpdateSelf']();
+export function UpdateTo(arg1) {
+  return window['go']['handler']['App']['UpdateTo'](arg1);
 }
