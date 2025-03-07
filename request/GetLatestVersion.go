@@ -3,11 +3,15 @@ package request
 import (
 	"github.com/pkg/errors"
 	"io"
-	"net/http"
 )
 
 func GetLatestVersion() (string, error) {
-	resp, err := http.Get("https://gfl2worker.mcc.wiki/ElmoBeacon/version")
+	client, err := NewHttpClient()
+	if err != nil {
+		return "", err
+	}
+
+	resp, err := client.Get("https://gfl2worker.mcc.wiki/ElmoBeacon/version")
 	if err != nil {
 		return "", err
 	}

@@ -39,7 +39,12 @@ func FetchGachaRecordList(gachaUrl, accessToken, next string, poolType int64) (d
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Authorization", accessToken)
 
-	resp, err := http.DefaultClient.Do(req)
+	client, err := NewHttpClient()
+	if err != nil {
+		return GachaRecordListData{}, err
+	}
+
+	resp, err := client.Do(req)
 	if err != nil {
 		return GachaRecordListData{}, err
 	}
