@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Write Version
         run: |
@@ -45,16 +47,13 @@ jobs:
         run: powershell Compress-Archive -Path ElmoBeacon -DestinationPath ElmoBeacon.zip
 
       - name: Build Changelog
-        id: bc
-        uses: mikepenz/release-changelog-builder-action@v5
-        with:
-          fromTag: ""
-          toTag: ${{ github.ref_name }}
+        run: npx changelogithub
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Create Release and Upload Release Asset
+      - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          body: ${{steps.bc.outputs.changelog}}
           files: |
             ElmoBeacon.zip
 
