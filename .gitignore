@@ -1,10 +1,13 @@
 .idea
-build/bin
-node_modules
-frontend/dist
-proto
-ElmoBeacon.db
-ElmoBeacon.log
+.nuxt
 
-/service/GetIconMap_test.go
-/frontend/package-lock.json
+bin
+node_modules
+dist
+proto
+
+*.db
+*.log
+*_test.go
+
+package-lock.json
