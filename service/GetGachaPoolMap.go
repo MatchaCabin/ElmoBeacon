@@ -148,6 +148,11 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 			}
 		}
 
+		for _, itemId := range unit.OptionalItem {
+			gachaPoolInfo.UpItem[itemId] = struct{}{}
+			gachaPoolInfo.Rank5Item[itemId] = struct{}{}
+		}
+
 		poolMap[unit.Id] = gachaPoolInfo
 	}
 
