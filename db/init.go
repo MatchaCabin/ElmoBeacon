@@ -12,7 +12,7 @@ var Engine *xorm.Engine
 
 func InitDB() {
 	var err error
-	Engine, err = xorm.NewEngine("sqlite", "ElmoBeacon.db")
+	Engine, err = xorm.NewEngine("sqlite", "ElmoBeacon.db?_pragma=busy_timeout(2000)")
 	if err != nil {
 		log.Panic().Err(err).Msg("")
 	}
