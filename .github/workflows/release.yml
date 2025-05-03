@@ -46,16 +46,16 @@ jobs:
       - name: Zip the folder
         run: powershell Compress-Archive -Path ElmoBeacon -DestinationPath ElmoBeacon.zip
 
-      - name: Build Changelog
-        run: npx changelogithub
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
           files: |
             ElmoBeacon.zip
+
+      - name: Build Changelog
+        run: npx changelogithub
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Upload to R2
         uses: ryand56/r2-upload-action@latest
