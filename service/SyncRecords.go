@@ -58,7 +58,7 @@ func SyncRecords(gameUserInfo *GameUserInfo) (*SyncResult, error) {
 	}
 
 	// fetch gacha records from official server until it matches the latest local record
-	gachaPoolTypeList, err := GetGachaPoolTypeList(gameUserInfo.GameDataDir, string(gameUserInfo.GameServer))
+	gachaPoolTypeList, err := GetGachaPoolTypeList(gameUserInfo.GameDataDir)
 	if err != nil {
 		log.Error().Err(err).Msg("")
 		return nil, errors.New("Failed to get gacha pool type list")
