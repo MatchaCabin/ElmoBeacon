@@ -103,60 +103,116 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 		var count, judgeCount int64
 		var isPreMissing bool
 		for _, record := range recordList {
-			gachaPoolInfo := gachaPoolMap[record.PoolId]
-			if item, hasItemData := itemDataMap[record.ItemId]; hasItemData {
-				poolInfo.TotalCount++
-				count++
-				if _, isRank5 := gachaPoolInfo.Rank5Item[item.Id]; isRank5 {
-					if text, hasLangData := langDataMap[item.Name.Id]; hasLangData {
-						poolInfo.Rank5Count++
-						if !isPreMissing {
-							judgeCount++
-						}
-						//todo handle special pool
-						var isMissing bool
-						if _, isUp := gachaPoolInfo.UpItem[item.Id]; len(gachaPoolInfo.UpItem) > 0 && !isUp {
-							isMissing = true
-							poolInfo.MissingCount++
-						}
-
-						icon := "Avatar_Head_Unknown_Spine.png"
-						if item.Type == 10 {
-							if i, hasIcon := dollIconMap[item.Id]; hasIcon {
-								icon = i
-							} else {
-								return PoolInfo{}, errors.Errorf("error occurred when get doll icon by id %d", item.Id)
+			if gachaPoolInfo, hasPoolInfo := gachaPoolMap[record.PoolId]; hasPoolInfo {
+				if item, hasItemData := itemDataMap[record.ItemId]; hasItemData {
+					poolInfo.TotalCount++
+					count++
+					if _, isRank5 := gachaPoolInfo.Rank5Item[item.Id]; isRank5 {
+						if text, hasLangData := langDataMap[item.Name.Id]; hasLangData {
+							poolInfo.Rank5Count++
+							if !isPreMissing {
+								judgeCount++
 							}
-						} else if item.Type == 20 {
-							if i, hasIcon := weaponIconMap[item.Id]; hasIcon {
-								icon = i
-							} else {
-								return PoolInfo{}, errors.Errorf("error occurred when get weapon icon by id %d", item.Id)
+							//todo handle special pool
+							var isMissing bool
+							if _, isUp := gachaPoolInfo.UpItem[item.Id]; len(gachaPoolInfo.UpItem) > 0 && !isUp {
+								isMissing = true
+								poolInfo.MissingCount++
 							}
-						}
 
-						displayRecordList = append(displayRecordList, DisplayRecord{
-							Name:      text,
-							Icon:      icon,
-							Count:     count,
-							Timestamp: record.Timestamp,
-							IsMissing: isMissing,
-						})
-						isPreMissing = isMissing
+							icon := "Avatar_Head_Unknown_Spine.png"
+							if item.Type == 10 {
+								if i, hasIcon := dollIconMap[item.Id]; hasIcon {
+									icon = i
+								} else {
+									return PoolInfo{}, errors.Errorf("error occurred when get doll icon by id %d", item.Id)
+								}
+							} else if item.Type == 20 {
+								if i, hasIcon := weaponIconMap[item.Id]; hasIcon {
+									icon = i
+								} else {
+									return PoolInfo{}, errors.Errorf("error occurred when get weapon icon by id %d", item.Id)
+								}
+							}
+
+							displayRecordList = append(displayRecordList, DisplayRecord{
+								Name:      text,
+								Icon:      icon,
+								Count:     count,
+								Timestamp: record.Timestamp,
+								IsMissing: isMissing,
+							})
+							isPreMissing = isMissing
+						} else {
+							return PoolInfo{}, errors.Errorf("error occurred when get item name by id:%d", record.ItemId)
+						}
+						count = 0
+					} else if _, isRank4 := gachaPoolInfo.Rank4Item[item.Id]; isRank4 {
+						poolInfo.Rank4Count++
+					} else if _, isRank3 := gachaPoolInfo.Rank3Item[item.Id]; isRank3 {
+						poolInfo.Rank3Count++
 					} else {
-						return PoolInfo{}, errors.Errorf("error occurred when get item name by id:%d", record.ItemId)
+						log.Warn().Int64("poolId", record.PoolId).Int64("itemId", item.Id).Msg("unknown rank")
 					}
-					count = 0
-				} else if _, isRank4 := gachaPoolInfo.Rank4Item[item.Id]; isRank4 {
-					poolInfo.Rank4Count++
-				} else if _, isRank3 := gachaPoolInfo.Rank3Item[item.Id]; isRank3 {
-					poolInfo.Rank3Count++
 				} else {
-					log.Warn().Int64("poolId", record.PoolId).Int64("itemId", item.Id).Msg("unknown rank")
+					return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)
 				}
 			} else {
-				return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)
+				if item, hasItemData := itemDataMap[record.ItemId]; hasItemData {
+					poolInfo.TotalCount++
+					count++
+					if item.Rank == 5 {
+						if text, hasLangData := langDataMap[item.Name.Id]; hasLangData {
+							poolInfo.Rank5Count++
+							if !isPreMissing {
+								judgeCount++
+							}
+
+							var isMissing bool
+							if item.Id == 1015 || item.Id == 1021 || item.Id == 1025 || item.Id == 1027 || item.Id == 1029 || item.Id == 1033 || item.Id == 1043 || item.Id == 11016 || item.Id == 11020 || item.Id == 11038 || item.Id == 11044 || item.Id == 11047 || item.Id == 10333 || item.Id == 10433 {
+								isMissing = true
+								poolInfo.MissingCount++
+							}
+
+							icon := "Avatar_Head_Unknown_Spine.png"
+							if item.Type == 10 {
+								if i, hasIcon := dollIconMap[item.Id]; hasIcon {
+									icon = i
+								} else {
+									return PoolInfo{}, errors.Errorf("error occurred when get doll icon by id %d", item.Id)
+								}
+							} else if item.Type == 20 {
+								if i, hasIcon := weaponIconMap[item.Id]; hasIcon {
+									icon = i
+								} else {
+									return PoolInfo{}, errors.Errorf("error occurred when get weapon icon by id %d", item.Id)
+								}
+							}
+
+							displayRecordList = append(displayRecordList, DisplayRecord{
+								Name:      text,
+								Icon:      icon,
+								Count:     count,
+								Timestamp: record.Timestamp,
+								IsMissing: isMissing,
+							})
+							isPreMissing = isMissing
+						} else {
+							return PoolInfo{}, errors.Errorf("error occurred when get item name by id:%d", record.ItemId)
+						}
+						count = 0
+					} else if item.Rank == 4 {
+						poolInfo.Rank4Count++
+					} else if item.Rank == 3 {
+						poolInfo.Rank3Count++
+					} else {
+						log.Warn().Int64("poolId", record.PoolId).Int64("itemId", item.Id).Msg("unknown rank")
+					}
+				} else {
+					return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)
+				}
 			}
+
 		}
 		poolInfo.StoredCount = count
 		if poolInfo.MissingCount > 0 {
