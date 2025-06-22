@@ -51,5 +51,15 @@ export default {
                 os: '國際服同步出錯'
             }
         }
-    }
+    },
+    theme: {
+        change: "更改主題",
+        custom: "自訂主題",
+        from: "起始顏色",
+        to: "結束顏色",
+        preview: "預覽效果",
+        popular: "流行漸變",
+        apply: "應用",
+        cancel: "取消"
+  }
 }

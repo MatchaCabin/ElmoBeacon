@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { usePoolStore } from '../store/poolStore'
+
+
+const poolStore = usePoolStore()
+
 const props = defineProps({
   name: {type: String, required: true},
   count: {type: Number, required: true},
@@ -8,14 +13,37 @@ const props = defineProps({
 
 
 const getBgColor = () => {
-  if (props.count < 50) {
-    return 'bg-cyan-400'
-  } else if (props.count < 60) {
-    return 'bg-lime-500'
-  } else if (props.count < 65) {
-    return 'bg-orange-500'
-  } else {
-    return 'bg-red-600'
+  //80抽保底|70抽保底|50抽保底|无保底
+  if (poolStore.poolType==1||poolStore.poolType==3||poolStore.poolType==6){
+      if (props.count <= 58) {
+        return 'bg-green-500'
+      } else if (props.count < 66) {
+        return 'bg-cyan-400'
+      } else {
+        return 'bg-red-600'
+      }
+  }else if(poolStore.poolType==4||poolStore.poolType==5||poolStore.poolType==7){
+      if (props.count <= 50) {
+        return 'bg-green-500'
+      } else if (props.count < 58) {
+        return 'bg-cyan-400'
+      } else {
+        return 'bg-red-600'
+      }
+  }else if(poolStore.poolType==5){
+      if (props.count < 50) {
+        return 'bg-green-500'
+      } else{
+        return 'bg-red-600'
+      }
+  }else{
+    if (props.count<=100){
+      return 'bg-green-500'
+    }else if(props.count<=400){
+      return 'bg-cyan-400'
+    }else{
+      return 'bg-red-600'
+    }
   }
 }
 </script>
