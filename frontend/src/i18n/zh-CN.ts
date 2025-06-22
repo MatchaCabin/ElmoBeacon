@@ -60,5 +60,15 @@ export default {
             confirm: '是',
             cancel: '否'
         },
-    }
+    },
+    theme: {
+        change: "更改主题",
+        custom: "自定义主题",
+        from: "起始颜色",
+        to: "结束颜色",
+        preview: "预览效果",
+        popular: "流行渐变",
+        apply: "应用",
+        cancel: "取消"
+  }
 }
