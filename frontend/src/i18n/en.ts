@@ -60,5 +60,15 @@ export default {
             confirm: 'Yes',
             cancel: 'No'
         },
-    }
+    },
+    theme: {
+        change: "Change theme",
+        custom: "Custom Theme",
+        from: "Start color",
+        to: "End color",
+        preview: "Preview",
+        popular: "Popular gradients",
+        apply: "Apply",
+        cancel: "Cancel"
+  }
 }

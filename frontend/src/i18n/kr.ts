@@ -51,5 +51,15 @@ export default {
                 os: 'Synchronization Error(OS)'
             }
         }
+    },
+    theme: {
+        change: "테마 변경",
+        custom: "사용자 정의 테마",
+        from: "시작 색상",
+        to: "종료 색상",
+        preview: "미리보기",
+        popular: "인기 그라데이션",
+        apply: "적용",
+        cancel: "취소"
     }
 }
